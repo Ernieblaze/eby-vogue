@@ -1,37 +1,64 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Footprints, Briefcase, Gem } from "lucide-react";
+import { unsplashUrl } from "@/lib/unsplash";
 
 const CATEGORIES = [
-  { slug: "footwear", label: "Footwear", icon: Footprints },
-  { slug: "bags", label: "Bags", icon: Briefcase },
-  { slug: "accessories", label: "Accessories", icon: Gem },
+  {
+    slug: "footwear",
+    label: "Footwear",
+    image: unsplashUrl("1535043934128-cf0b28d52f95", 600),
+  },
+  {
+    slug: "bags",
+    label: "Bags",
+    image: unsplashUrl("1584917865442-de89df76afd3", 600),
+  },
+  {
+    slug: "accessories",
+    label: "Accessories",
+    image: unsplashUrl("1602173574767-37ac01994b2a", 600),
+  },
 ];
 
 export function CategoryGrid() {
   return (
     <section className="bg-bg">
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
         <p className="text-center text-xs font-semibold uppercase tracking-widest text-accent">
           Shop By Category
         </p>
-        <h2 className="mt-2 text-center font-heading text-3xl font-semibold text-ink sm:text-4xl">
+        <h2 className="mt-2 text-center font-heading text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
           Find Your Style
         </h2>
 
-        <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-3">
-          {CATEGORIES.map(({ slug, label, icon: Icon }) => (
-            <Link key={slug} href={`/shop?category=${slug}`} className="group flex flex-col items-center">
+        <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-3">
+          {CATEGORIES.map(({ slug, label, image }) => (
+            <Link
+              key={slug}
+              href={`/shop?category=${slug}`}
+              className="group relative block h-64 overflow-hidden rounded-2xl shadow-md sm:h-80"
+            >
               <motion.div
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.25, ease: "easeOut" }}
-                className="flex h-32 w-32 items-center justify-center rounded-full bg-accent-soft ring-0 ring-accent transition-shadow group-hover:ring-2 sm:h-40 sm:w-40"
+                whileHover={{ scale: 1.08 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="absolute inset-0"
               >
-                <Icon className="text-accent" size={36} />
+                <Image
+                  src={image}
+                  alt={`${label} from Eby Vogue Glamour`}
+                  fill
+                  loading="lazy"
+                  sizes="(min-width: 640px) 33vw, 100vw"
+                  className="object-cover"
+                />
               </motion.div>
-              <p className="mt-4 font-heading text-lg text-ink">{label}</p>
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent" />
+              <p className="absolute bottom-5 left-5 font-heading text-2xl text-surface">
+                {label}
+              </p>
             </Link>
           ))}
         </div>

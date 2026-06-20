@@ -40,11 +40,11 @@ export function Navbar() {
           ))}
         </nav>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-1">
           <button
             type="button"
             aria-label="Search"
-            className="text-ink transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            className="flex h-11 w-11 items-center justify-center text-ink transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           >
             <Search size={20} />
           </button>
@@ -52,11 +52,11 @@ export function Navbar() {
           <Link
             href="/cart"
             aria-label={`Cart, ${cartCount} item${cartCount === 1 ? "" : "s"}`}
-            className="relative text-ink transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+            className="relative flex h-11 w-11 items-center justify-center text-ink transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           >
             <ShoppingBag size={20} />
             {cartCount > 0 && (
-              <span className="absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-semibold leading-none text-surface">
+              <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-semibold leading-none text-surface">
                 {cartCount}
               </span>
             )}
@@ -67,7 +67,7 @@ export function Navbar() {
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={isMenuOpen}
             onClick={() => setIsMenuOpen((open) => !open)}
-            className="text-ink transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:hidden"
+            className="flex h-11 w-11 items-center justify-center text-ink transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent md:hidden"
           >
             {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
@@ -75,14 +75,14 @@ export function Navbar() {
       </div>
 
       {isMenuOpen && (
-        <nav className="border-t border-line bg-surface px-4 py-4 md:hidden">
-          <ul className="flex flex-col gap-4">
+        <nav className="border-t border-line bg-surface px-4 py-2 md:hidden">
+          <ul className="flex flex-col">
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className="block text-sm font-medium text-ink transition-colors hover:text-accent"
+                  className="flex min-h-11 items-center text-sm font-medium text-ink transition-colors hover:text-accent"
                 >
                   {link.label}
                 </Link>

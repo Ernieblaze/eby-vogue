@@ -27,11 +27,11 @@ export function ProductGrid({
 }) {
   return (
     <section className="bg-bg">
-      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20">
         <p className="text-center text-xs font-semibold uppercase tracking-widest text-accent">
           {eyebrow}
         </p>
-        <h2 className="mt-2 text-center font-heading text-3xl font-semibold text-ink sm:text-4xl">
+        <h2 className="mt-2 text-center font-heading text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
           {title}
         </h2>
 

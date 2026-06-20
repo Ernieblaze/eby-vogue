@@ -12,5 +12,6 @@ export type Product = {
   gallery: string[] | null;
   in_stock: boolean;
   featured: boolean;
+  is_new: boolean;
   created_at: string;
 };
