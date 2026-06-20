@@ -3,17 +3,21 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Check, Heart } from "lucide-react";
+import { Check, Heart, ImageIcon } from "lucide-react";
 import type { Product } from "@/lib/types";
 import { formatNaira, discountPercent } from "@/lib/format";
 import { buildProductEnquiryLink } from "@/lib/whatsapp";
 import { useCart } from "@/lib/cart-context";
 
-const CATEGORY_LABELS: Record<Product["category"], string> = {
+const CATEGORY_LABELS: Record<string, string> = {
   footwear: "Footwear",
   bags: "Bags",
   accessories: "Accessories",
 };
+
+function getCategoryLabel(category: string): string {
+  return CATEGORY_LABELS[category] ?? category.charAt(0).toUpperCase() + category.slice(1);
+}
 
 export function ProductCard({ product }: { product: Product }) {
   const [isWishlisted, setIsWishlisted] = useState(false);
@@ -22,6 +26,7 @@ export function ProductCard({ product }: { product: Product }) {
   const { addItem } = useCart();
 
   const needsSize = product.category === "footwear" && (product.sizes?.length ?? 0) > 0;
+  const hasDiscount = !!product.original_price && product.original_price > product.price;
 
   useEffect(() => {
     if (!justAdded) return;
@@ -39,25 +44,33 @@ export function ProductCard({ product }: { product: Product }) {
     <motion.div
       whileHover={{ y: -6 }}
       transition={{ duration: 0.25, ease: "easeOut" }}
-      className="group flex flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-sm transition-shadow hover:shadow-xl"
+      className={`group flex flex-col overflow-hidden rounded-2xl border border-line bg-surface shadow-sm transition-shadow hover:shadow-xl ${
+        product.in_stock ? "" : "opacity-60"
+      }`}
     >
       <div className="relative aspect-square overflow-hidden bg-accent-soft">
-        <Image
-          src={product.image_url}
-          alt={product.name}
-          fill
-          loading="lazy"
-          sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-          className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
-        />
+        {product.image_url ? (
+          <Image
+            src={product.image_url}
+            alt={product.name}
+            fill
+            loading="lazy"
+            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center">
+            <ImageIcon className="text-accent" size={40} />
+          </div>
+        )}
 
         <div className="absolute left-3 top-3 flex flex-col gap-2">
           <span className="rounded-full bg-surface/95 px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-ink shadow-sm">
-            {CATEGORY_LABELS[product.category]}
+            {getCategoryLabel(product.category)}
           </span>
-          {product.original_price && (
+          {hasDiscount && (
             <span className="rounded-full bg-accent px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-surface shadow-sm">
-              -{discountPercent(product.price, product.original_price)}%
+              -{discountPercent(product.price, product.original_price as number)}%
             </span>
           )}
           {product.is_new && (
@@ -86,13 +99,16 @@ export function ProductCard({ product }: { product: Product }) {
 
       <div className="flex flex-1 flex-col gap-2 p-4">
         <h3 className="font-heading text-base text-ink">{product.name}</h3>
+        {product.description && (
+          <p className="line-clamp-1 text-xs text-muted">{product.description}</p>
+        )}
         <div className="flex items-center gap-2">
           <span className="text-sm font-semibold text-accent">
             {formatNaira(product.price)}
           </span>
-          {product.original_price && (
+          {hasDiscount && (
             <span className="text-xs text-muted line-through">
-              {formatNaira(product.original_price)}
+              {formatNaira(product.original_price as number)}
             </span>
           )}
         </div>

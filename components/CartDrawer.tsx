@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react";
+import { ImageIcon, Minus, Plus, ShoppingBag, Trash2, X } from "lucide-react";
 import { useCart } from "@/lib/cart-context";
 import { formatNaira } from "@/lib/format";
 import { buildCartEnquiryLink } from "@/lib/whatsapp";
@@ -63,13 +63,19 @@ export function CartDrawer() {
                         className="flex gap-3 border-b border-line py-4 last:border-b-0"
                       >
                         <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-accent-soft">
-                          <Image
-                            src={item.product.image_url}
-                            alt={item.product.name}
-                            fill
-                            sizes="80px"
-                            className="object-cover"
-                          />
+                          {item.product.image_url ? (
+                            <Image
+                              src={item.product.image_url}
+                              alt={item.product.name}
+                              fill
+                              sizes="80px"
+                              className="object-cover"
+                            />
+                          ) : (
+                            <div className="flex h-full w-full items-center justify-center">
+                              <ImageIcon className="text-accent" size={20} />
+                            </div>
+                          )}
                         </div>
 
                         <div className="flex flex-1 flex-col gap-1">
