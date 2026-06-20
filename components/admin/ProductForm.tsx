@@ -1,7 +1,11 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type ChangeEvent, type FormEvent } from "react";
+import { ImageIcon, Upload } from "lucide-react";
 import type { Product, ProductInput } from "@/lib/types";
+import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
+
+const PRODUCT_IMAGES_BUCKET = "product-images";
 
 const CATEGORY_OPTIONS = [
   { value: "footwear", label: "Footwear" },
@@ -37,6 +41,37 @@ export function ProductForm({
   onCancel: () => void;
 }) {
   const [form, setForm] = useState(toFormState(product));
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setUploadError(null);
+    setIsUploading(true);
+
+    const supabase = createSupabaseBrowserClient();
+    const fileExt = file.name.split(".").pop() || "jpg";
+    const filePath = `${Date.now()}-${crypto.randomUUID()}.${fileExt}`;
+
+    const { error: uploadErr } = await supabase.storage
+      .from(PRODUCT_IMAGES_BUCKET)
+      .upload(filePath, file, { cacheControl: "3600", upsert: false });
+
+    if (uploadErr) {
+      setUploadError("Could not upload this photo. Please try again.");
+      setIsUploading(false);
+      event.target.value = "";
+      return;
+    }
+
+    const { data } = supabase.storage.from(PRODUCT_IMAGES_BUCKET).getPublicUrl(filePath);
+    setForm((f) => ({ ...f, image_url: data.publicUrl }));
+    setIsUploading(false);
+    event.target.value = "";
+  };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -158,17 +193,46 @@ export function ProductForm({
       </div>
 
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="image_url" className="text-sm font-medium text-ink">
-          Image URL
-        </label>
-        <input
-          id="image_url"
-          type="url"
-          placeholder="https://..."
-          value={form.image_url}
-          onChange={(event) => setForm((f) => ({ ...f, image_url: event.target.value }))}
-          className="min-h-11 rounded-2xl border border-line bg-bg px-4 text-sm text-ink outline-none transition-colors focus:border-accent"
-        />
+        <span className="text-sm font-medium text-ink">Product Photo</span>
+        <div className="flex items-center gap-4">
+          <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-accent-soft">
+            {form.image_url ? (
+              // Storage public URLs / external URLs may be any host, so a
+              // plain <img> avoids next/image's remotePatterns allowlist.
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={form.image_url} alt="" className="h-full w-full object-cover" />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center">
+                <ImageIcon className="text-accent" size={24} />
+              </div>
+            )}
+          </div>
+
+          <div className="flex flex-col gap-1">
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="hidden"
+            />
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={isUploading}
+              className="flex min-h-11 items-center gap-2 rounded-2xl border border-line px-4 text-sm font-semibold text-ink transition-colors hover:border-accent hover:text-accent disabled:opacity-60"
+            >
+              <Upload size={16} />
+              {isUploading ? "Uploading..." : "Upload Photo"}
+            </button>
+            <p className="text-xs text-muted">JPG or PNG, from your camera or gallery.</p>
+          </div>
+        </div>
+        {uploadError && (
+          <p role="alert" className="text-sm text-red-600">
+            {uploadError}
+          </p>
+        )}
       </div>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:gap-6">
@@ -202,15 +266,15 @@ export function ProductForm({
       <div className="mt-2 flex flex-col gap-3 sm:flex-row">
         <button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || isUploading}
           className="flex min-h-11 flex-1 items-center justify-center rounded-2xl bg-accent text-sm font-semibold text-surface shadow-md transition-opacity disabled:opacity-60"
         >
-          {isSubmitting ? "Saving..." : product ? "Save Changes" : "Add Product"}
+          {isUploading ? "Uploading..." : isSubmitting ? "Saving..." : product ? "Save Changes" : "Add Product"}
         </button>
         <button
           type="button"
           onClick={onCancel}
-          disabled={isSubmitting}
+          disabled={isSubmitting || isUploading}
           className="flex min-h-11 flex-1 items-center justify-center rounded-2xl border border-line text-sm font-semibold text-ink transition-colors hover:border-accent hover:text-accent disabled:opacity-60"
         >
           Cancel
