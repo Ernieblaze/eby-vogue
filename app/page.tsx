@@ -8,6 +8,11 @@ import { Testimonials } from "@/components/Testimonials";
 import { supabase } from "@/lib/supabase";
 import type { Product } from "@/lib/types";
 
+// Force per-request rendering so admin changes to products show up
+// immediately instead of serving a build-time snapshot.
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function Home() {
   const { data, error } = await supabase
     .from("products")
