@@ -25,3 +25,17 @@ export type CartItem = {
   size: string | null;
   quantity: number;
 };
+
+// Shape used by the admin product form for inserts/updates — excludes
+// DB-generated fields and UI-only extras that aren't real columns.
+export type ProductInput = {
+  name: string;
+  description: string | null;
+  price: number;
+  original_price: number | null;
+  category: string;
+  sizes: string[] | null;
+  image_url: string | null;
+  in_stock: boolean;
+  featured: boolean;
+};

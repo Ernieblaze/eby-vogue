@@ -1,6 +1,8 @@
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 import { LogoutButton } from "@/components/admin/LogoutButton";
+import { ProductManager } from "@/components/admin/ProductManager";
+import type { Product } from "@/lib/types";
 
 export default async function AdminDashboardPage() {
   const supabase = await createSupabaseServerClient();
@@ -9,6 +11,11 @@ export default async function AdminDashboardPage() {
   if (error || !data?.user) {
     redirect("/admin/login");
   }
+
+  const { data: products } = await supabase
+    .from("products")
+    .select("*")
+    .order("created_at", { ascending: false });
 
   return (
     <div className="min-h-screen bg-bg px-4 py-10">
@@ -27,9 +34,7 @@ export default async function AdminDashboardPage() {
           <LogoutButton />
         </div>
 
-        <div className="flex min-h-48 items-center justify-center rounded-2xl border border-dashed border-line bg-surface p-8 text-center shadow-sm">
-          <p className="text-sm text-muted">Product management coming next.</p>
-        </div>
+        <ProductManager initialProducts={(products as Product[]) ?? []} />
       </div>
     </div>
   );
