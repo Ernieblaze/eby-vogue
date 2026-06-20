@@ -15,3 +15,10 @@ export type Product = {
   is_new: boolean;
   created_at: string;
 };
+
+export type CartItem = {
+  id: string;
+  product: Product;
+  size: string | null;
+  quantity: number;
+};

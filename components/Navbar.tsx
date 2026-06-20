@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Menu, X, Search, ShoppingBag } from "lucide-react";
+import { useCart } from "@/lib/cart-context";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -11,12 +12,9 @@ const NAV_LINKS = [
   { href: "/contact", label: "Contact" },
 ];
 
-// Placeholder until cart-context.tsx is wired in.
-const PLACEHOLDER_CART_COUNT: number = 2;
-
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const cartCount = PLACEHOLDER_CART_COUNT;
+  const { itemCount, toggleCart } = useCart();
 
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-surface/90 backdrop-blur">
@@ -49,18 +47,19 @@ export function Navbar() {
             <Search size={20} />
           </button>
 
-          <Link
-            href="/cart"
-            aria-label={`Cart, ${cartCount} item${cartCount === 1 ? "" : "s"}`}
+          <button
+            type="button"
+            onClick={toggleCart}
+            aria-label={`Open cart, ${itemCount} item${itemCount === 1 ? "" : "s"}`}
             className="relative flex h-11 w-11 items-center justify-center text-ink transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           >
             <ShoppingBag size={20} />
-            {cartCount > 0 && (
+            {itemCount > 0 && (
               <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] font-semibold leading-none text-surface">
-                {cartCount}
+                {itemCount}
               </span>
             )}
-          </Link>
+          </button>
 
           <button
             type="button"

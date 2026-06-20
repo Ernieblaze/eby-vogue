@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Camera, MessageCircle } from "lucide-react";
+import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
 
 const QUICK_LINKS = [
   { href: "/", label: "Home" },
@@ -8,7 +9,6 @@ const QUICK_LINKS = [
   { href: "/contact", label: "Contact" },
 ];
 
-const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "2348000000000";
 const INSTAGRAM_URL = process.env.NEXT_PUBLIC_INSTAGRAM_URL ?? "https://instagram.com/ebyvogueglamour";
 
 export function Footer() {
@@ -48,7 +48,7 @@ export function Footer() {
           <ul className="mt-4 space-y-3">
             <li>
               <a
-                href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                href={buildGeneralWhatsAppLink()}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-sm text-muted transition-colors hover:text-accent"

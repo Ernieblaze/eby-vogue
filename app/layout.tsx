@@ -4,6 +4,9 @@ import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PageTransition } from "@/components/PageTransition";
+import { CartDrawer } from "@/components/CartDrawer";
+import { FloatingWhatsAppButton } from "@/components/FloatingWhatsAppButton";
+import { CartProvider } from "@/lib/cart-context";
 import "./globals.css";
 
 const playfairDisplay = Playfair_Display({
@@ -33,12 +36,16 @@ export default function RootLayout({
       className={`${playfairDisplay.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
-        <AnnouncementBar />
-        <Navbar />
-        <main className="flex-1">
-          <PageTransition>{children}</PageTransition>
-        </main>
-        <Footer />
+        <CartProvider>
+          <AnnouncementBar />
+          <Navbar />
+          <main className="flex-1">
+            <PageTransition>{children}</PageTransition>
+          </main>
+          <Footer />
+          <CartDrawer />
+          <FloatingWhatsAppButton />
+        </CartProvider>
       </body>
     </html>
   );

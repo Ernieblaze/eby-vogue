@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Heart } from "lucide-react";
+import { Check, Heart } from "lucide-react";
 import type { Product } from "@/lib/types";
 import { formatNaira, discountPercent } from "@/lib/format";
 import { buildProductEnquiryLink } from "@/lib/whatsapp";
+import { useCart } from "@/lib/cart-context";
 
 const CATEGORY_LABELS: Record<Product["category"], string> = {
   footwear: "Footwear",
@@ -16,6 +17,23 @@ const CATEGORY_LABELS: Record<Product["category"], string> = {
 
 export function ProductCard({ product }: { product: Product }) {
   const [isWishlisted, setIsWishlisted] = useState(false);
+  const [isChoosingSize, setIsChoosingSize] = useState(false);
+  const [justAdded, setJustAdded] = useState(false);
+  const { addItem } = useCart();
+
+  const needsSize = product.category === "footwear" && (product.sizes?.length ?? 0) > 0;
+
+  useEffect(() => {
+    if (!justAdded) return;
+    const timeout = setTimeout(() => setJustAdded(false), 1800);
+    return () => clearTimeout(timeout);
+  }, [justAdded]);
+
+  const handleAddToEnquiry = (size: string | null = null) => {
+    addItem(product, size);
+    setIsChoosingSize(false);
+    setJustAdded(true);
+  };
 
   return (
     <motion.div
@@ -80,14 +98,57 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
 
         {product.in_stock ? (
-          <a
-            href={buildProductEnquiryLink(product)}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-auto flex min-h-11 items-center justify-center rounded-2xl border border-accent text-xs font-semibold uppercase tracking-wide text-accent transition-all hover:bg-accent hover:text-surface hover:shadow-md"
-          >
-            Order on WhatsApp
-          </a>
+          <div className="mt-auto flex flex-col gap-2">
+            {isChoosingSize ? (
+              <div className="flex flex-col gap-2">
+                <p className="text-[11px] font-medium uppercase tracking-wide text-muted">
+                  Select a size
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {product.sizes?.map((size) => (
+                    <button
+                      key={size}
+                      type="button"
+                      onClick={() => handleAddToEnquiry(size)}
+                      className="flex h-9 min-w-9 items-center justify-center rounded-lg border border-line px-2 text-xs font-medium text-ink transition-colors hover:border-accent hover:text-accent"
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsChoosingSize(false)}
+                  className="text-left text-xs text-muted underline-offset-2 hover:underline"
+                >
+                  Cancel
+                </button>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={() => (needsSize ? setIsChoosingSize(true) : handleAddToEnquiry())}
+                className="flex min-h-11 items-center justify-center gap-2 rounded-2xl border border-ink text-xs font-semibold uppercase tracking-wide text-ink transition-colors hover:bg-ink hover:text-surface"
+              >
+                {justAdded ? (
+                  <>
+                    <Check size={14} /> Added to Enquiry
+                  </>
+                ) : (
+                  "Add to Enquiry"
+                )}
+              </button>
+            )}
+
+            <a
+              href={buildProductEnquiryLink(product)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex min-h-11 items-center justify-center rounded-2xl border border-accent text-xs font-semibold uppercase tracking-wide text-accent transition-all hover:bg-accent hover:text-surface hover:shadow-md"
+            >
+              Order on WhatsApp
+            </a>
+          </div>
         ) : (
           <button
             type="button"
