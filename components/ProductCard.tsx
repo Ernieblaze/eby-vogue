@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Check, Heart, ImageIcon } from "lucide-react";
 import type { Product } from "@/lib/types";
@@ -49,20 +50,22 @@ export function ProductCard({ product }: { product: Product }) {
       }`}
     >
       <div className="relative aspect-square overflow-hidden bg-accent-soft">
-        {product.image_url ? (
-          <Image
-            src={product.image_url}
-            alt={product.name}
-            fill
-            loading="lazy"
-            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-            className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center">
-            <ImageIcon className="text-accent" size={40} />
-          </div>
-        )}
+        <Link href={`/product/${product.id}`} className="absolute inset-0 block">
+          {product.image_url ? (
+            <Image
+              src={product.image_url}
+              alt={product.name}
+              fill
+              loading="lazy"
+              sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+              className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center">
+              <ImageIcon className="text-accent" size={40} />
+            </div>
+          )}
+        </Link>
 
         <div className="absolute left-3 top-3 flex flex-col gap-2">
           <span className="rounded-full bg-surface/95 px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-ink shadow-sm">
@@ -98,7 +101,11 @@ export function ProductCard({ product }: { product: Product }) {
       </div>
 
       <div className="flex flex-1 flex-col gap-2 p-4">
-        <h3 className="font-heading text-base text-ink">{product.name}</h3>
+        <Link href={`/product/${product.id}`}>
+          <h3 className="font-heading text-base text-ink transition-colors hover:text-accent">
+            {product.name}
+          </h3>
+        </Link>
         {product.description && (
           <p className="line-clamp-1 text-xs text-muted">{product.description}</p>
         )}
