@@ -26,7 +26,7 @@ export function AboutUs() {
             Glamour, Curated With Care
           </h2>
           <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-muted md:mx-0 md:text-base">
-            Eby Vogue Glamour &amp; Accessories is a Lagos-based boutique
+            Eby Vogue Glamour &amp; Accessories is a Port Harcourt-based boutique
             bringing you hand-picked footwear, bags, and accessories. Every
             piece is chosen for quality and style, and every order is handled
             personally — no middlemen, no guesswork, just glamour styled for

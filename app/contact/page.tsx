@@ -1,12 +1,9 @@
-import { Clock, Globe, Camera, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Clock, Music2, MapPin, MessageCircle, Phone } from "lucide-react";
 import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
+import { FacebookIcon } from "@/components/icons/FacebookIcon";
 
-// TODO: replace with client's real WhatsApp number if this env var changes.
-const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "2348000000000";
-const WHATSAPP_DISPLAY = `+${WHATSAPP_NUMBER}`;
-
-// TODO: replace with client's real Instagram handle/URL.
-const INSTAGRAM_URL = process.env.NEXT_PUBLIC_INSTAGRAM_URL ?? "https://instagram.com/ebyvogueglamour";
+const FACEBOOK_URL = "https://www.facebook.com/profile.php?id=61558752482136";
+const TIKTOK_URL = "https://www.tiktok.com/@ebyvoguefooties";
 
 export default function ContactPage() {
   return (
@@ -19,8 +16,9 @@ export default function ContactPage() {
           Get in Touch
         </h1>
         <p className="mx-auto mt-4 max-w-md text-center text-sm text-muted sm:text-base">
-          Questions about a piece, an order, or delivery? Reach out — we typically
-          reply within the hour during business hours.
+          Questions about a piece, your size, an order, or delivery? Message us on
+          WhatsApp — it&apos;s the fastest way to reach us, and we usually reply
+          within the hour during business hours.
         </p>
 
         <div className="mt-10 flex flex-col items-center gap-3">
@@ -35,7 +33,6 @@ export default function ContactPage() {
           </a>
         </div>
 
-        {/* TODO: replace with client's real contact details */}
         <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div className="flex items-start gap-3 rounded-2xl border border-line bg-surface p-5 shadow-sm">
             <Phone className="mt-0.5 text-accent" size={20} />
@@ -43,25 +40,22 @@ export default function ContactPage() {
               <p className="text-xs font-semibold uppercase tracking-wide text-muted">
                 Phone / WhatsApp
               </p>
-              <p className="mt-1 text-sm text-ink">{WHATSAPP_DISPLAY}</p>
+              <p className="mt-1 text-sm text-ink">+234 907 831 1175</p>
             </div>
           </div>
 
-          <div className="flex items-start gap-3 rounded-2xl border border-line bg-surface p-5 shadow-sm">
-            <Mail className="mt-0.5 text-accent" size={20} />
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-muted">Email</p>
-              <p className="mt-1 text-sm text-ink">hello@ebyvogueglamour.com</p>
-            </div>
-          </div>
+          {/* TODO: add email if client wants one later */}
 
           <div className="flex items-start gap-3 rounded-2xl border border-line bg-surface p-5 shadow-sm">
             <MapPin className="mt-0.5 text-accent" size={20} />
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-muted">
-                Area Served
+                Location
               </p>
-              <p className="mt-1 text-sm text-ink">Lagos, Nigeria</p>
+              <p className="mt-1 text-sm text-ink">
+                Port Harcourt, Rivers State &middot; Nationwide delivery
+              </p>
+              {/* TODO: confirm if client wants street address shown: 113 Rumuola Street, Port Harcourt */}
             </div>
           </div>
 
@@ -71,32 +65,33 @@ export default function ContactPage() {
               <p className="text-xs font-semibold uppercase tracking-wide text-muted">
                 Business Hours
               </p>
-              <p className="mt-1 text-sm text-ink">Mon&ndash;Sat, 9am&ndash;6pm</p>
+              <p className="mt-1 text-sm text-ink">Open daily &middot; Monday&ndash;Sunday</p>
             </div>
           </div>
         </div>
 
-        {/* TODO: replace with client's real social links */}
         <div className="mt-10 flex flex-col items-center gap-3">
           <p className="text-xs font-semibold uppercase tracking-widest text-accent">
             Follow Us
           </p>
           <div className="flex gap-3">
             <a
-              href={INSTAGRAM_URL}
+              href={FACEBOOK_URL}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Instagram (placeholder link — update with real handle)"
+              aria-label="Facebook"
               className="flex h-11 w-11 items-center justify-center rounded-full border border-line text-ink transition-colors hover:border-accent hover:text-accent"
             >
-              <Camera size={18} />
+              <FacebookIcon size={18} />
             </a>
             <a
-              href="#"
-              aria-label="Facebook (placeholder link — update with real page)"
+              href={TIKTOK_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="TikTok"
               className="flex h-11 w-11 items-center justify-center rounded-full border border-line text-ink transition-colors hover:border-accent hover:text-accent"
             >
-              <Globe size={18} />
+              <Music2 size={18} />
             </a>
           </div>
         </div>

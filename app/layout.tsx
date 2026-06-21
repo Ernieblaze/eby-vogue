@@ -20,9 +20,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Eby Vogue Glamour & Accessories | Footwear, Bags & Accessories in Lagos",
+  title: "Eby Vogue Glamour & Accessories | Footwear, Bags & Accessories in Port Harcourt",
   description:
-    "Shop curated footwear, bags & accessories at Eby Vogue Glamour. Authentic styles, fast Lagos delivery, and easy WhatsApp ordering — no online payment required.",
+    "Shop curated footwear, bags & accessories at Eby Vogue Glamour. Authentic styles, fast Port Harcourt delivery, and easy WhatsApp ordering — no online payment required.",
 };
 
 export default function RootLayout({

@@ -2,7 +2,7 @@ import type { CartItem, Product } from "@/lib/types";
 import { formatNaira } from "@/lib/format";
 
 // Fallback used only if NEXT_PUBLIC_WHATSAPP_NUMBER is not set in .env.local.
-const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "2348105640095";
+const WHATSAPP_NUMBER = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "2349078311175";
 
 export function buildWhatsAppLink(message: string): string {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;

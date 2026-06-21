@@ -5,13 +5,13 @@ import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
 const WHY_SHOP_POINTS = [
   {
     icon: Gem,
-    title: "Curated Selection",
-    description: "Every piece is hand-picked for quality and timeless style.",
+    title: "Affordable Luxury",
+    description: "Premium-looking footwear, bags, and accessories at prices that make sense.",
   },
   {
     icon: ShieldCheck,
-    title: "Authentic Products",
-    description: "What you see is what you get — no surprises, ever.",
+    title: "Hand-Picked Quality",
+    description: "Every piece is checked before it reaches you. What you see is what you get.",
   },
   {
     icon: MessageCircle,
@@ -20,8 +20,8 @@ const WHY_SHOP_POINTS = [
   },
   {
     icon: Truck,
-    title: "Lagos Delivery",
-    description: "Fast, reliable delivery across Lagos and beyond.",
+    title: "Nationwide Delivery",
+    description: "Fast, reliable delivery across Port Harcourt and all over Nigeria.",
   },
 ];
 
@@ -36,28 +36,27 @@ export default function AboutPage() {
           About Eby Vogue Glamour
         </h1>
 
-        {/* TODO: replace with client's real brand story */}
         <div className="mx-auto mt-8 flex max-w-2xl flex-col gap-4 text-sm leading-relaxed text-muted sm:text-base">
           <p>
-            Eby Vogue Glamour &amp; Accessories is a Lagos-based boutique built on a
-            simple idea: glamour should feel personal. We curate footwear, bags, and
-            accessories for women who want to step out with confidence, without
-            wading through endless options or guessing at quality.
+            Eby Vogue Glamour &amp; Accessories is Port Harcourt&apos;s home of
+            affordable luxury — a boutique for women who want standout footwear,
+            bags, and accessories without the standout price tag.
           </p>
           <p>
-            Every piece in our collection is chosen by hand, checked for quality, and
-            styled with you in mind. There&apos;s no faceless checkout here — when you
-            reach out, you&apos;re talking to a real person who wants to help you find
-            exactly what you&apos;re looking for, then get it to your door.
+            What began as a love for beautiful, well-made pieces has grown into one
+            of Port Harcourt&apos;s trusted names for slippers, sandals, heels, and
+            handbags. We sell both wholesale and retail, offering styles that look
+            and feel premium while staying within reach.
           </p>
           <p>
-            From our first sale to today, our promise has stayed the same: authentic
-            products, honest prices, and service that feels like a friend helping you
-            shop, not a transaction.
+            Every piece is hand-picked and checked for quality before it reaches you
+            — because affordable should never mean a compromise. As a registered
+            Nigerian business, we stand behind every order, and when you message us
+            on WhatsApp you&apos;re speaking to us directly: we help you choose,
+            confirm your size, and arrange payment and delivery personally.
           </p>
         </div>
 
-        {/* TODO: replace with client's real "why shop with us" copy if different */}
         <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2">
           {WHY_SHOP_POINTS.map(({ icon: Icon, title, description }) => (
             <div

@@ -8,7 +8,7 @@ const REASONS = [
   },
   {
     icon: Truck,
-    title: "Fast Lagos Delivery",
+    title: "Fast Port Harcourt Delivery",
     description: "Same-day dispatch on orders placed before 2pm.",
   },
   {
@@ -50,7 +50,7 @@ export function WhyShopWithUs() {
         </div>
 
         <p className="mt-10 text-center text-sm text-muted">
-          Same-day dispatch in Lagos &middot; Nationwide delivery in 2&ndash;4 business days
+          Same-day dispatch in Port Harcourt &middot; Nationwide delivery in 2&ndash;4 business days
         </p>
       </div>
     </section>

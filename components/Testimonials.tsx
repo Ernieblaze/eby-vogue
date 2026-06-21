@@ -10,7 +10,7 @@ const TESTIMONIALS = [
   {
     quote:
       "My heels arrived exactly as pictured and the WhatsApp ordering made it so easy. Will definitely order again.",
-    name: "Chiamaka, Lagos",
+    name: "Chiamaka, Port Harcourt",
     avatar: unsplashUrl("1438761681033-6461ffad8d80", 80),
   },
   {
