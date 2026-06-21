@@ -1,7 +1,5 @@
 import Link from "next/link";
-import { Music2, MessageCircle } from "lucide-react";
-import { buildGeneralWhatsAppLink } from "@/lib/whatsapp";
-import { FacebookIcon } from "@/components/icons/FacebookIcon";
+import { getSocialLinks } from "@/lib/social";
 
 const QUICK_LINKS = [
   { href: "/", label: "Home" },
@@ -16,10 +14,9 @@ const INFO_LINKS = [
   { href: "/returns", label: "Returns & Exchanges" },
 ];
 
-const FACEBOOK_URL = "https://www.facebook.com/profile.php?id=61558752482136";
-const TIKTOK_URL = "https://www.tiktok.com/@ebyvoguefooties";
-
 export function Footer() {
+  const socialLinks = getSocialLinks();
+
   return (
     <footer className="border-t border-line bg-surface">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 sm:px-6 md:grid-cols-4">
@@ -72,39 +69,19 @@ export function Footer() {
             Contact
           </p>
           <ul className="mt-4 space-y-3">
-            <li>
-              <a
-                href={buildGeneralWhatsAppLink()}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-muted transition-colors hover:text-accent"
-              >
-                <MessageCircle size={16} />
-                WhatsApp Us
-              </a>
-            </li>
-            <li>
-              <a
-                href={FACEBOOK_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-muted transition-colors hover:text-accent"
-              >
-                <FacebookIcon size={16} />
-                Facebook
-              </a>
-            </li>
-            <li>
-              <a
-                href={TIKTOK_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-muted transition-colors hover:text-accent"
-              >
-                <Music2 size={16} />
-                TikTok
-              </a>
-            </li>
+            {socialLinks.map(({ name, footerLabel, href, Icon }) => (
+              <li key={name}>
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-sm text-muted transition-colors hover:text-accent"
+                >
+                  <Icon size={16} />
+                  {footerLabel}
+                </a>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
